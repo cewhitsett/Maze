@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Vue Intro</title>
+    <meta charset="utf-8">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <style>
+      body {
+        padding: 0;
+        margin:  0;
+        width: 100vw;
+        height: 100%;
+        background-color: lightblue;
+      }
+      #app {
+        margin-top: 100px;
+      }
+
+      .board {
+        width: 80vw;
+        height: 80vw;
+        margin-right: auto;
+        margin-left: auto;
+      }
+
+      .grid {
+        background-color: lightgreen;
+        border-right: 1px black solid;
+        border: 1px black solid;
+      }
+
+      .board div:first-of-type > div {
+        border-top: 5px black solid;
+      }
+      .board div:last-of-type > div {
+        border-bottom: 5px black solid;
+      }
+
+
+
+      .grid-row {
+        display: flex;
+        width: 100%;
+      }
+
+      .grid-row div:first-of-type {
+        border-left: 5px black solid;
+      }
+
+      .grid-row div:last-of-type {
+        border-right: 5px black solid;
+      }
+    </style>
+</head>
+<body>
+
+  <div id="app">
+    <input v-model="size">
+    <div class="board">
+      <div
+        v-for="row in gridData"
+        class="grid-row"
+        v-bind:style="rowheight">
+        <div
+          v-for="item in row"
+          class="grid"
+          v-bind:style="compSize">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    var app = new Vue({
+      el: '#app',
+      data: {
+        compSize: {
+          width: "10%",
+          height: "100%"
+        },
+        rowheight: "height: 10%",
+        size: 10,
+        gridData: []
+      },
+      created: function() {
+        for (var i=0; i < this.size; i++) {
+          this.gridData.push([]);
+          for (var j=0; j < this.size; j++) {
+            this.gridData[i].push([]);
+          }
+        }
+      },
+      watch: {
+        size: function(val) {
+          this.compSize = {
+            width: 100.0/val + "%",
+            height: "100%"
+          };
+          this.rowheight = "height: "+100.0/val + "%";
+          this.gridData=[];
+          for (var i=0; i < this.size; i++) {
+            this.gridData.push([]);
+            for (var j=0; j < this.size; j++) {
+              this.gridData[i].push([]);
+            }
+          }
+        }
+      }
+    });
+  </script>
+</body>
+</html>
